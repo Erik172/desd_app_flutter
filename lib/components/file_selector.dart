@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class FileSelector extends StatelessWidget {
   final Function onDirectoryPicked;
-  final int fileCount;
+  final List<Map<String, dynamic>> files;
 
   const FileSelector({
     required this.onDirectoryPicked,
-    required this.fileCount,
+    required this.files,
     super.key,
   });
 
@@ -25,11 +25,35 @@ class FileSelector extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         Text(
-          'Archivos seleccionados: $fileCount',
+          'Archivos seleccionados: ${files.length}',
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
+        ),
+        const SizedBox(height: 20),
+        Container(
+          constraints: const BoxConstraints(
+            maxHeight: 200,
+          ),
+
+          child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: files.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: SelectableText(files[index]['name']),
+                      subtitle: SelectableText(
+                        files[index]['path'],
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      trailing: Text(files[index]['extension']),
+                    );
+                  },
+                ), 
         ),
       ],
     );

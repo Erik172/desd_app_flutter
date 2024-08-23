@@ -7,12 +7,6 @@ Future<List<dynamic>> getResult({required String id, String host = 'http://local
   return jsonDecode(response.body);
 }
 
-Future<void> downloadResult({required String id, String host = 'http://localhost:5000'}) async {
-  final response = await http.get(Uri.parse('$host/v2/export/$id'));
-  final file = File('result_$id.csv');
-  await file.writeAsBytes(response.bodyBytes);
-}
-
 Future<void> downloadResultDirectory({required String id, required String directory, String? filename, String host = 'http://localhost:5000'}) async {
   final response = await http.get(Uri.parse('$host/v2/export/$id'));
   DateTime now = DateTime.now();

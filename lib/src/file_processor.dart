@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:desd_app_flutter/src/sources.dart';
 
@@ -51,6 +52,33 @@ class FileProcessor {
           content: Text('Error al procesar los archivos'),
         ),
       );
+    }
+  }
+
+  static Future<void> pickDirectory({
+    required BuildContext context,
+    required Function(List<Map<String, dynamic>>, String) onFilesPicked,
+  }) async {
+    String? directoryPath = await FilePicker.platform.getDirectoryPath();
+    String mainDirectory = directoryPath ?? '';
+    if (directoryPath != null) {
+      final directory = Directory(directoryPath);
+      List<Map<String, dynamic>> files = directory
+          .listSync()
+          .where((e) =>
+              e.path.toLowerCase().endsWith('.pdf') ||
+              e.path.toLowerCase().endsWith('.tiff'))
+          .map((e) {
+        return {
+          'name': e.path.split('\\').last,
+          'path': e.path,
+          'extension': e.path.split('.').last,
+          'hashcode': e.hashCode,
+        };
+      }).toList();
+
+      // Llama a la función proporcionada para actualizar el estado en la UI
+      onFilesPicked(files, mainDirectory);
     }
   }
 }

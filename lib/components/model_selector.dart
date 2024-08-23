@@ -14,37 +14,42 @@ class ModelSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const Text(
-          'Seleccionar modelos:',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const Text(
+            'Seleccionar modelos:',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.left,
           ),
-          textAlign: TextAlign.start,
-        ),
-        const SizedBox(height: 10),
-        Wrap(
-          spacing: 10,
-          children: models.map((model) {
-            return FilterChip(
-              label: Text(model),
-              selected: selectedModels.contains(model),
-              onSelected: (selected) {
-                final updatedModels = List<String>.from(selectedModels);
-                if (selected) {
-                  updatedModels.add(model);
-                } else {
-                  updatedModels.remove(model);
-                }
-                onModelSelected(updatedModels);
-              },
-            );
-          }).toList(),
-        ),
-      ],
+          const SizedBox(height: 10),
+          Center(
+            child: Wrap(
+              spacing: 10,
+              children: models.map((model) {
+                return FilterChip(
+                  label: Text(model),
+                  selected: selectedModels.contains(model),
+                  onSelected: (selected) {
+                    final updatedModels = List<String>.from(selectedModels);
+                    if (selected) {
+                      updatedModels.add(model);
+                    } else {
+                      updatedModels.remove(model);
+                    }
+                    onModelSelected(updatedModels);
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
